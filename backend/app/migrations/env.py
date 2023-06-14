@@ -4,8 +4,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from database.models import metadata
-from config import DB_USER, DB_NAME, DB_PORT, DB_HOST, DB_PASS
+from app.hestia.db.models import metadata
+from app.core.config import DB_USER, DB_NAME, DB_PORT, DB_HOST, DB_PASS
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

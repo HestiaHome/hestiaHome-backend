@@ -5,12 +5,13 @@ from fastapi import Depends
 from fastapi_users.db import SQLAlchemyUserDatabase, SQLAlchemyBaseUserTable
 from sqlalchemy import Column, String, Boolean, Integer, TIMESTAMP, ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import declarative_base, sessionmaker, DeclarativeMeta, relationship
-from config import DB_USER, DB_NAME, DB_PORT, DB_HOST, DB_PASS
+from sqlalchemy.orm import declarative_base, sessionmaker, DeclarativeMeta
+from app.core.config import DB_USER, DB_NAME, DB_PORT, DB_HOST, DB_PASS
 
-from database.models import UserCategory, Station
+from app.hestia.db.models import UserCategory
 
-DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_URL = f"postgresql+asyncpg://" \
+               f"{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 Base: DeclarativeMeta = declarative_base()
 
@@ -31,7 +32,9 @@ class User(SQLAlchemyBaseUserTable[int], Base):
 
 
 engine = create_async_engine(DATABASE_URL)
-async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async_session_maker = sessionmaker(engine,
+                                   class_=AsyncSession,
+                                   expire_on_commit=False)
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:

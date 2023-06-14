@@ -54,27 +54,6 @@ class Station(Base):
         return f"Station: id={self.id!r}, name={self.name!r}, user_id={self.user_id!r}"
 
 
-class Device(Base):
-    __tablename__ = "device"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(30), nullable=False)
-    room_id = Column(Integer, ForeignKey("room.id"))
-    type = Column(Integer, ForeignKey("device_types.id"))
-    data = Column(String)
-    command = Column(String)
-    time = Column(TIMESTAMP, default=datetime.utcnow)
-    status = Column(Boolean, default=False)
-    station_id = Column(Integer, ForeignKey("station.id"))
-
-    device_types = relationship("DeviceTypes", back_populates="devices")
-    station = relationship("Station", back_populates="devices")
-    room = relationship("Room", back_populates="devices")
-
-    def __repr__(self):
-        return f"Device: name={self.name!r}, time={self.time!r}, status={self.status!r}"
-
-
 class Room(Base):
     __tablename__ = "room"
 
@@ -84,13 +63,34 @@ class Room(Base):
     devices = relationship("Device", back_populates="room")
 
 
-class DeviceTypes(Base):
-    __tablename__ = "device_types"
+class Device(Base):
+    __tablename__ = "device"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(30), nullable=False)
+    room_id = Column(Integer, ForeignKey("room.id"))
+    type = Column(Integer, ForeignKey("device_type.id"))
+    data = Column(String)
+    command = Column(String)
+    time = Column(TIMESTAMP, default=datetime.utcnow)
+    status = Column(Boolean, default=False)
+    station_id = Column(Integer, ForeignKey("station.id"))
+
+    device_type = relationship("DeviceType", back_populates="devices")
+    station = relationship("Station", back_populates="devices")
+    room = relationship("Room", back_populates="devices")
+
+    def __repr__(self):
+        return f"Device: name={self.name!r}, time={self.time!r}, status={self.status!r}"
+
+
+class DeviceType(Base):
+    __tablename__ = "device_type"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30), nullable=False)
 
-    devices = relationship("Device", back_populates="device_types")
+    devices = relationship("Device", back_populates="device_type")
 
     def __repr__(self):
-        return f"Device Types: id={self.id!r}, name={self.name!r}"
+        return f"Device Type: id={self.id!r}, name={self.name!r}"

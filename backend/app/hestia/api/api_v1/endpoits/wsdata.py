@@ -1,15 +1,11 @@
-import asyncio
+from app.core.log_settings import logger
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
+from sqlalchemy.orm import Session
 
-from log_settings import logger
-from fastapi import APIRouter
-from fastapi import WebSocket, WebSocketDisconnect
-
-from database.database import SessionLocal
-from database.models import User
+from app.hestia.api.deps import get_db
+from app.hestia.db.models import User
 
 ws_router = APIRouter()
-
-session = SessionLocal()
 
 
 class ConnectionManager:
@@ -48,16 +44,21 @@ manager = ConnectionManager()
 
 
 @ws_router.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+async def websocket_endpoint(websocket: WebSocket,
+                             client_id: int,
+                             db: Session = Depends(get_db)):
     await manager.connect(websocket)
-    cur_user = session.query(User).get(client_id)
+    cur_user = db.query(User).get(client_id)
     if not cur_user:
-        logger.debug(f"User {client_id} can't connect to websocket, because user doesn't exist")
-        await manager.send_personal_message(f"User-{client_id} doesn't exist.", websocket)
+        logger.debug(f"User {client_id} can't connect to websocket,"
+                     f" because user doesn't exist")
+        await manager.send_personal_message(f"User-{client_id}"
+                                            f" doesn't exist.", websocket)
     else:
         logger.debug(f"User {client_id} has connect to websocket")
         manager.write_active_user(websocket, client_id)
-        logger.debug(f"Current active users: {manager.active_users.keys()} after connecting user #{client_id}")
+        logger.debug(f"Current active users: {manager.active_users.keys()}"
+                     f" after connecting user #{client_id}")
         try:
             while True:
                 data = await websocket.receive_text()
@@ -65,4 +66,5 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
             manager.disconnect(websocket)
             manager.remove_active_user(client_id)
             logger.debug(f"User {client_id} has disconnect to websocket")
-            logger.debug(f"Current active users: {manager.active_users.keys()} after disconnecting user #{client_id}")
+            logger.debug(f"Current active users: {manager.active_users.keys()}"
+                         f" after disconnecting user #{client_id}")
