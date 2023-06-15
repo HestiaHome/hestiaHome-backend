@@ -16,6 +16,8 @@ from .db import User, get_user_db
 SECRET = "SECRET"
 
 
+# TODO: Избавиться от библиотеки fastapi-users. Переделать auth как в fastapi-template
+
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET

@@ -17,7 +17,6 @@ from app.hestia.db.models import metadata
 from app.core.config import DB_HOST, DB_PASS, DB_PORT, DB_USER
 from app.main import app
 
-# TODO: Переделать conftest как в fastapi-templates
 # TODO: Автоматизировать создание test_db через фикстуру
 
 

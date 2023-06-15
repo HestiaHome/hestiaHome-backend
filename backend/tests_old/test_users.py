@@ -1,14 +1,15 @@
 """
 Тестирование endpoint'ов для аунтентификации пользователя.
 """
-
-from conftest import client
+#
+from tests.conftest import client
 from app.hestia.db.session import SessionLocal
 
 session = SessionLocal()
 
 
-# TODO: Дописать модульные тесты для users.
+# TODO: Переделать тесты как в fastapi-templates
+
 
 class TestUserAuthentication:
     def test_register_client(self):

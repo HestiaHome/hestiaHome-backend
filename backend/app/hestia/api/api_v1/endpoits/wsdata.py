@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.hestia.api.deps import get_db
 from app.hestia.db.models import User
 
-ws_router = APIRouter()
+router = APIRouter()
 
 
 class ConnectionManager:
@@ -45,7 +45,7 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-@ws_router.websocket("/ws/{client_id}")
+@router.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket,
                              client_id: uuid.UUID,
                              db: Session = Depends(get_db)):

@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import UUID
 Base = declarative_base()
 
 metadata = Base.metadata
-
+# TODO: Возможно стоит переделать Категории и Room в класс enum.Enum
 
 class User(Base):
     __tablename__ = "user"
@@ -47,13 +47,13 @@ class Station(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(30), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=True)
+    owner_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=True)
 
     user = relationship("User", back_populates="stations")
     devices = relationship("Device", back_populates="station")
 
     def __repr__(self):
-        return f"Station: id={self.id!r}, name={self.name!r}, user_id={self.user_id!r}"
+        return f"Station: id={self.id!r}, name={self.name!r}, user_id={self.owner_id!r}"
 
 
 class Room(Base):
