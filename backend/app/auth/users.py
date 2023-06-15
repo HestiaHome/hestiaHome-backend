@@ -1,8 +1,9 @@
+import uuid
 from typing import Optional, Dict, Any
 from app.core.log_settings import logger
 
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, FastAPIUsers, IntegerIDMixin
+from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
@@ -15,7 +16,7 @@ from .db import User, get_user_db
 SECRET = "SECRET"
 
 
-class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
+class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
 
@@ -23,23 +24,23 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
                                 user: User,
                                 request: Optional[Request] = None):
         # print(f"User {user.id} has registered.")
-        logger.debug(f"User {user.id} has registered.")
+        logger.debug(f"User-{user.id} has registered.")
 
     async def on_after_login(self,
                              user: User,
                              request: Optional[Request] = None):
-        logger.debug(f"User {user.id} has login.")
+        logger.debug(f"User-{user.id} has login.")
 
     async def on_after_delete(self,
                               user: User,
                               request: Optional[Request] = None) -> None:
-        logger.debug(f"User {user.id} deleted.")
+        logger.debug(f"User-{user.id} deleted.")
 
     async def on_after_update(self,
                               user: User,
                               update_dict: Dict[str, Any],
-                              request: Optional[Request] = None,) -> None:
-        logger.debug(f"User {user.id} update his profile.")
+                              request: Optional[Request] = None, ) -> None:
+        logger.debug(f"User-{user.id} update his profile.")
 
 
 async def get_user_manager(
@@ -60,7 +61,7 @@ auth_backend = AuthenticationBackend(
     get_strategy=get_jwt_strategy,
 )
 
-fastapi_users = FastAPIUsers[User, int](get_user_manager, [auth_backend])
+fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
 current_active_user = fastapi_users.current_user(active=True)
 super_user = fastapi_users.current_user(superuser=True)

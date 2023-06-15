@@ -1,3 +1,5 @@
+import uuid
+
 from datetime import datetime
 
 from fastapi import APIRouter, Response, Depends
@@ -13,7 +15,7 @@ device_router = APIRouter()
 
 
 @device_router.put("/send_data/{device_id}")
-def update_data_from_devices(device_id: int,
+def update_data_from_devices(device_id: uuid.UUID,
                              response: Response, data: DeviceData, db: Session = Depends(get_db)):
     device = Device
     cur_device = db.query(device).get(device_id)

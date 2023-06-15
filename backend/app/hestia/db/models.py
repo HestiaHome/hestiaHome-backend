@@ -1,7 +1,9 @@
+import uuid
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.dialects.postgresql import UUID
 
 Base = declarative_base()
 
@@ -11,7 +13,7 @@ metadata = Base.metadata
 class User(Base):
     __tablename__ = "user"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String, nullable=False)
     username = Column(String(30), nullable=False)
     create_at = Column(TIMESTAMP, default=datetime.utcnow)
@@ -43,9 +45,9 @@ class UserCategory(Base):
 class Station(Base):
     __tablename__ = "station"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(30), nullable=False)
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=True)
 
     user = relationship("User", back_populates="stations")
     devices = relationship("Device", back_populates="station")
@@ -57,7 +59,7 @@ class Station(Base):
 class Room(Base):
     __tablename__ = "room"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(30))
 
     devices = relationship("Device", back_populates="room")
@@ -66,15 +68,15 @@ class Room(Base):
 class Device(Base):
     __tablename__ = "device"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(30), nullable=False)
-    room_id = Column(Integer, ForeignKey("room.id"))
+    room_id = Column(UUID(as_uuid=True), ForeignKey("room.id"))
     type = Column(Integer, ForeignKey("device_type.id"))
     data = Column(String)
     command = Column(String)
     time = Column(TIMESTAMP, default=datetime.utcnow)
     status = Column(Boolean, default=False)
-    station_id = Column(Integer, ForeignKey("station.id"))
+    station_id = Column(UUID(as_uuid=True), ForeignKey("station.id"))
 
     device_type = relationship("DeviceType", back_populates="devices")
     station = relationship("Station", back_populates="devices")

@@ -1,1 +1,1 @@
-# TODO: Реализовать crud для станции
+# TODO: Реализовать crud для station и отрефакторить endpoint station

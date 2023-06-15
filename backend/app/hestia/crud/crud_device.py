@@ -1,1 +1,1 @@
-# TODO: Реализовать crud для device
+# TODO: Реализовать crud для device и отрефакторить endpoint device

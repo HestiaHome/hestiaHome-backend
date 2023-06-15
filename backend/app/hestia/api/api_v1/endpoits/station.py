@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 
 from fastapi import APIRouter, Response, Depends
@@ -13,7 +14,7 @@ station_router = APIRouter()
 
 
 @station_router.post("/create_station/", status_code=201)
-def create_station(station_id: int,
+def create_station(station_id: uuid.UUID,
                    name: str, response: Response,
                    db: Session = Depends(get_db),
                    user: User = Depends(super_user)):
@@ -28,7 +29,7 @@ def create_station(station_id: int,
 
 
 @station_router.post("/bind_station/")
-def bind_station(station_id: int,
+def bind_station(station_id: uuid.UUID,
                  response: Response,
                  db: Session = Depends(get_db),
                  user: User = Depends(current_active_user)):
@@ -49,7 +50,7 @@ def get_stations(db: Session = Depends(get_db), user: User = Depends(super_user)
 
 
 @station_router.put("/send_data/{station_id}")
-async def station_send_data(station_id: int,
+async def station_send_data(station_id: uuid.UUID,
                             data: StationData,
                             response: Response,
                             db: Session = Depends(get_db)):

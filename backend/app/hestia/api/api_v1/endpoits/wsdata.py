@@ -1,3 +1,5 @@
+import uuid
+
 from app.core.log_settings import logger
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
@@ -45,7 +47,7 @@ manager = ConnectionManager()
 
 @ws_router.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket,
-                             client_id: int,
+                             client_id: uuid.UUID,
                              db: Session = Depends(get_db)):
     await manager.connect(websocket)
     cur_user = db.query(User).get(client_id)

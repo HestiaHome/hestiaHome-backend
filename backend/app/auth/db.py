@@ -1,12 +1,14 @@
+import uuid
 from datetime import datetime
 from typing import AsyncGenerator
 
 from fastapi import Depends
-from fastapi_users.db import SQLAlchemyUserDatabase, SQLAlchemyBaseUserTable
 from sqlalchemy import Column, String, Boolean, Integer, TIMESTAMP, ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker, DeclarativeMeta
+from fastapi_users.db import SQLAlchemyUserDatabase, SQLAlchemyBaseUserTableUUID
 from app.core.config import DB_USER, DB_NAME, DB_PORT, DB_HOST, DB_PASS
+from sqlalchemy.dialects.postgresql import UUID
 
 from app.hestia.db.models import UserCategory
 
@@ -16,8 +18,8 @@ DATABASE_URL = f"postgresql+asyncpg://" \
 Base: DeclarativeMeta = declarative_base()
 
 
-class User(SQLAlchemyBaseUserTable[int], Base):
-    id = Column(Integer, primary_key=True)
+class User(SQLAlchemyBaseUserTableUUID, Base):
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String, nullable=False)
     username = Column(String, nullable=False)
     create_at = Column(TIMESTAMP, default=datetime.utcnow)
