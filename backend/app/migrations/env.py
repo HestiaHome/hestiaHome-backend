@@ -4,19 +4,19 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from app.hestia.db.models import metadata
-from app.core.config import DB_USER, DB_NAME, DB_PORT, DB_HOST, DB_PASS
+from app.db.models import metadata
+from app.core.config import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "DB_HOST", DB_HOST)
-config.set_section_option(section, "DB_PORT", DB_PORT)
-config.set_section_option(section, "DB_USER", DB_USER)
-config.set_section_option(section, "DB_NAME", DB_NAME)
-config.set_section_option(section, "DB_PASS", DB_PASS)
+config.set_section_option(section, "DB_HOST", settings.POSTGRES_HOST)
+config.set_section_option(section, "DB_PORT", settings.POSTGRES_PORT)
+config.set_section_option(section, "DB_USER", settings.POSTGRES_USER)
+config.set_section_option(section, "DB_NAME", settings.POSTGRES_DB_NAME)
+config.set_section_option(section, "DB_PASS", settings.POSTGRES_PASS)
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:

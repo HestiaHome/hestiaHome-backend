@@ -1,16 +1,12 @@
 import uuid
 
-from datetime import datetime
-
-from fastapi import APIRouter, Response, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 # from app.hestia.api.deps import get_db
-from app.hestia.db.models import Device
-from app.hestia.schemas.device import DeviceData
 
-from app.auth.db import User
-from app.core.log_settings import logger
+# from app.auth.db import User
+from app.db.models import User
 from app.hestia import schemas, crud
 from app.hestia.api import deps
 
@@ -27,7 +23,7 @@ def read_devices(
         skip: int = 0,
         limit: int = 100,
         db: Session = Depends(deps.get_db),
-        current_user: User = Depends(deps.current_active_user),
+        current_user: User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Retrieve devices by station id
@@ -62,7 +58,7 @@ def create_device(
         station_id: uuid.UUID,
         device_in: schemas.DeviceCreate,
         db: Session = Depends(deps.get_db),
-        current_user: User = Depends(deps.current_active_user),
+        current_user: User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Create new device by station id
@@ -95,7 +91,7 @@ def update_device(
         db: Session = Depends(deps.get_db),
         id: uuid.UUID,
         device_in: schemas.DeviceUpdate,
-        current_user: User = Depends(deps.current_active_user)
+        current_user: User = Depends(deps.get_current_active_user)
 ) -> Any:
     """
     Update a device
@@ -121,7 +117,7 @@ def get_device(
         *,
         id: uuid.UUID,
         db: Session = Depends(deps.get_db),
-        current_user: User = Depends(deps.current_active_user)
+        current_user: User = Depends(deps.get_current_active_user)
 ) -> Any:
     device = crud.device.get(db=db, id=id)
     if not device:
@@ -138,7 +134,7 @@ def delete_device(
         *,
         id: uuid.UUID,
         db: Session = Depends(deps.get_db),
-        current_user: User = Depends(deps.current_active_user),
+        current_user: User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     device = crud.device.get(db=db, id=id)
     if not device:

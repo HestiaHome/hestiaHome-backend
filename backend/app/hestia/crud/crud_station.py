@@ -2,7 +2,7 @@ import uuid
 from fastapi.encoders import jsonable_encoder
 from .base import CRUDBase
 from sqlalchemy.orm import Session
-from app.hestia.db.models import Station
+from app.db.models import Station
 from app.hestia.schemas.station import StationCreate, StationUpdate
 
 

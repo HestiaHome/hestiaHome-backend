@@ -1,0 +1,1 @@
+#TODO: написать utils для user, device, station. Потом написать тесты для cruds и endpoints

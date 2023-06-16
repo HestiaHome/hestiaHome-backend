@@ -2,8 +2,8 @@
 Тестирование endpoint'ов для аунтентификации пользователя.
 """
 #
-from tests.conftest import client
-from app.hestia.db.session import SessionLocal
+from app.tests.conftest import client
+from app.db.session import SessionLocal
 
 session = SessionLocal()
 

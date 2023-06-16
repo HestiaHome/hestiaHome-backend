@@ -13,15 +13,18 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
 from app.auth.db import get_async_session
-from app.hestia.db.models import metadata
-from app.core.config import DB_HOST, DB_PASS, DB_PORT, DB_USER
+from app.db.models import metadata
+from app.core.config import settings
 from app.main import app
 
+# TODO: Переделать conftest как в fastapi-templates
 # TODO: Автоматизировать создание test_db через фикстуру
 
 
 DATABASE_URL_TEST = f"postgresql+asyncpg://" \
-                    f"{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/test_db"
+                    f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASS}" \
+                    f"@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/" \
+                    f"test_db"
 
 engine_test = create_async_engine(DATABASE_URL_TEST, poolclass=NullPool)
 async_session_maker = sessionmaker(engine_test,
@@ -59,6 +62,6 @@ client = TestClient(app)
 
 
 @pytest.fixture(scope="session")
-async def ac() -> AsyncGenerator[AsyncClient, None]:
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        yield ac
+async def asyncclient() -> AsyncGenerator[AsyncClient, None]:
+    async with AsyncClient(app=app, base_url="http://test") as asyncclient:
+        yield asyncclient
