@@ -6,7 +6,8 @@ from jose import jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-from app.hestia import crud, schemas
+from app import schemas
+from app import crud
 from app.db import models
 from app.core import security
 from app.db.session import SessionLocal

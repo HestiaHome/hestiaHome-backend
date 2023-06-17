@@ -2,10 +2,10 @@ from typing import Optional, Union, Any
 
 from sqlalchemy.orm import Session
 
-from app.hestia.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate
 # from app.auth.db import User
 from app.db.models import User
-from app.hestia.crud.base import CRUDBase
+from app.crud.base import CRUDBase
 from app.core.security import get_password_hash, verify_password
 from app.db import models
 

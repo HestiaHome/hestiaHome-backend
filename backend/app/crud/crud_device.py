@@ -2,7 +2,7 @@ import uuid
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from app.db.models import Device
-from app.hestia.schemas.device import DeviceCreate, DeviceUpdate
+from app.schemas.device import DeviceCreate, DeviceUpdate
 from .base import CRUDBase
 
 

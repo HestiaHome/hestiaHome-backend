@@ -3,7 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from .base import CRUDBase
 from sqlalchemy.orm import Session
 from app.db.models import Station
-from app.hestia.schemas.station import StationCreate, StationUpdate
+from app.schemas.station import StationCreate, StationUpdate
 
 
 class CRUDStation(CRUDBase[Station, StationCreate, StationUpdate]):

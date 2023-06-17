@@ -1,16 +1,15 @@
 from datetime import timedelta
 from typing import Any
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from app.hestia import crud, schemas
+from app import schemas, crud
 from app.db import models
-from app.hestia.api import deps
+from app.api import deps
 from app.core import security
 from app.core.config import settings
-from app.core.security import get_password_hash
 
 router = APIRouter()
 

@@ -7,8 +7,9 @@ from sqlalchemy.orm import Session
 
 # from app.auth.db import User
 from app.db.models import User
-from app.hestia import schemas, crud
-from app.hestia.api import deps
+from app import schemas
+from app import crud
+from app.api import deps
 
 from typing import List, Any
 

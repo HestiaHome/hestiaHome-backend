@@ -1,15 +1,12 @@
 import uuid
 from typing import Any, List
 
-from fastapi import APIRouter, Body, Depends, HTTPException
-from fastapi.encoders import jsonable_encoder
-from pydantic.networks import EmailStr
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.hestia import crud, schemas
+from app import schemas, crud
 from app.db import models
-from app.hestia.api import deps
-from app.core.config import settings
+from app.api import deps
 
 router = APIRouter()
 

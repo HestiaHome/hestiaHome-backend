@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
-from .hestia.api.api_v1.api import api_router
-from app.hestia.api.deps import get_current_active_user
+from app.api.api_v1.api import api_router
+from app.api.deps import get_current_active_user
 from app.db.models import User
 # from .auth.auth_api import auth_router
 

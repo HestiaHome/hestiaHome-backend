@@ -4,7 +4,7 @@ from app.core.log_settings import logger
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
 
-from app.hestia.api.deps import get_db
+from app.api.deps import get_db
 from app.db.models import User
 
 router = APIRouter()
