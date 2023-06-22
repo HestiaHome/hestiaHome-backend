@@ -10,6 +10,7 @@ from app.api import deps
 
 router = APIRouter()
 
+
 @router.get("/", response_model=List[schemas.User])
 def read_users(
         db: Session = Depends(deps.get_db),
@@ -22,6 +23,7 @@ def read_users(
     """
     users = crud.user.get_multi(db=db, skip=skip, limit=limit)
     return users
+
 
 @router.post("/", response_model=schemas.User)
 def create_user(
@@ -42,6 +44,7 @@ def create_user(
     user = crud.user.create(db=db, obj_in=user_in)
     return user
 
+
 @router.get("/me", response_model=schemas.User)
 def read_user_me(
         db: Session = Depends(deps.get_db),
@@ -51,6 +54,7 @@ def read_user_me(
     Get current user
     """
     return current_user
+
 
 @router.get("/{user_id}", response_model=schemas.User)
 def read_user_by_id(
@@ -70,6 +74,7 @@ def read_user_by_id(
             detail="The user doesn't have enough privileges"
         )
     return user
+
 
 @router.put("/{user_id}", response_model=schemas.User)
 def update_user(

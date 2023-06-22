@@ -16,6 +16,13 @@ class Settings(BaseSettings):
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
+    FIRST_SUPERUSER_USERNAME: str
+    FIRST_SUPERUSER_EMAIL: str
+    FIRST_SUPERUSER_PASSWORD: str
+
+    EMAIL_TEST_USER: str
+    PASSWORD_TEST_USER: str
+
     class Config:
         env_file = f"{os.path.dirname(os.path.abspath(__file__))}/.env"
         env_file_encoding = 'utf-8'

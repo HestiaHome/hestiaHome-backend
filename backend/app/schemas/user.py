@@ -21,7 +21,7 @@ class UserUpdate(UserBase):
 
 
 class UserInDBBase(UserBase):
-    id: Optional[int] = None
+    id: Optional[uuid.UUID] = None
     user_type: Optional[int] = None
     create_at: Optional[datetime] = None
 

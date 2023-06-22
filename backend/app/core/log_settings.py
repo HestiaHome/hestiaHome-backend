@@ -11,17 +11,22 @@ logger_config = {
         }
     },
     "handlers": {
-        "console": {
+        "in_file": {
             "class": "logging.FileHandler",
             "level": "DEBUG",
             "formatter": "std_format",
             "filename": "app_log.log"
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "std_format",
         }
     },
     "loggers": {
         "app_logger":{
             "level": "DEBUG",
-            "handlers": ["console"],
+            "handlers": ["console", "in_file"],
             "filename": "log.log"
             # "propagate": False
         }

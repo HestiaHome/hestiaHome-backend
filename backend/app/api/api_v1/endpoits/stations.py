@@ -11,6 +11,8 @@ from app import crud
 from app.api import deps
 from typing import List, Any
 
+from app.core.log_settings import logger
+
 router = APIRouter()
 
 
@@ -22,6 +24,7 @@ def read_stations(
         current_user: User = Depends(deps.get_current_active_user),
 ) -> Any:
     """Retrieve stations"""
+    logger.debug("Hello world!")
     if current_user.is_superuser:
         stations = crud.station.get_multi(db=db, skip=skip, limit=limit)
     else:
