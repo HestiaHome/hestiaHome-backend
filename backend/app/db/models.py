@@ -2,13 +2,19 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship, DeclarativeBase
 from sqlalchemy.dialects.postgresql import UUID
 
-Base = declarative_base()
+
+# TODO: Возможно стоит переделать Категории и Room в класс enum.Enum
+# TODO: Переписать классы под SQLAlchemy 2.0
+
+class Base(DeclarativeBase):
+    pass
+
 
 metadata = Base.metadata
-# TODO: Возможно стоит переделать Категории и Room в класс enum.Enum
+
 
 class User(Base):
     __tablename__ = "user"
