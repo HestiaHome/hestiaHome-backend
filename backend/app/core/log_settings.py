@@ -26,7 +26,8 @@ logger_config = {
     "loggers": {
         "app_logger":{
             "level": "DEBUG",
-            "handlers": ["console", "in_file"],
+            # "handlers": ["console", "in_file"],
+            "handlers": ["console"],
             "filename": "log.log"
             # "propagate": False
         }

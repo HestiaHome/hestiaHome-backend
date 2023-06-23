@@ -11,8 +11,6 @@ from app.api import deps
 from app.tests.utils.user import authentication_token_from_email
 from app.tests.utils.utils import get_superuser_token_headers
 
-from app.core.log_settings import logger
-
 # TODO: Автоматизировать создание test_db через фикстуру
 
 

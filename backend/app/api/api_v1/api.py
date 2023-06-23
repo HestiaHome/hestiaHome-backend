@@ -14,8 +14,8 @@ api_router.include_router(
 )
 api_router.include_router(
     stations.router,
-    prefix="/station",
-    tags=["station"]
+    prefix="/stations",
+    tags=["stations"]
 )
 api_router.include_router(
     devices.router,

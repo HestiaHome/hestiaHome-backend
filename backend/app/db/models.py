@@ -59,7 +59,7 @@ class Station(Base):
     devices = relationship("Device", back_populates="station")
 
     def __repr__(self):
-        return f"Station: id={self.id!r}, name={self.name!r}, user_id={self.owner_id!r}"
+        return f"Station: id={self.id!r}, name={self.name!r}, owner_id={self.owner_id!r}"
 
 
 class Room(Base):
